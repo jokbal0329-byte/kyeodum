@@ -4,3 +4,5 @@
 .wrangler
 node_modules
 wrangler.jsonc
+README*
+.DS_Store
