@@ -580,7 +580,6 @@
       if (on) t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
     $$('.tool').forEach((p) => { p.hidden = p.id !== 'tool-' + id; });
-    $$('.about').forEach((a) => { a.hidden = a.dataset.for !== id; });
     if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
     store.set('tab', id);
     loop();
