@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://kyeodum.ludlet.com/sitemap.xml

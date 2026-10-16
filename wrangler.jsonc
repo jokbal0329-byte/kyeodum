@@ -2,6 +2,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "kyeodum",
   "compatibility_date": "2026-10-01",
+  "routes": [
+    { "pattern": "kyeodum.ludlet.com", "custom_domain": true }
+  ],
   "assets": {
     "directory": "."
   }
