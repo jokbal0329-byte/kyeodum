@@ -8,16 +8,28 @@
 <meta name="theme-color" content="#E4E7E4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121518" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://kyeodum.ludlet.com/">
+<!-- 도구별 페이지(pomodoro.html 등)는 이 파일로 만든다: 수정 후 node scripts/pages.mjs -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="켜둠 · ludlet">
+<meta property="og:locale" content="ko_KR">
 <meta property="og:url" content="https://kyeodum.ludlet.com/">
 <meta property="og:title" content="켜둠 | 켜두고 쓰는 타이머와 시계">
 <meta property="og:description" content="뽀모도로, 공부 타이머, 메트로놈, 전체화면 시계, 플립 시계, 수업용 타이머.">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="https://kyeodum.ludlet.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="켜둠 - 켜두고 쓰는 타이머와 시계">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"켜둠","url":"https://kyeodum.ludlet.com/","description":"켜두고 쓰는 무료 타이머와 시계. 뽀모도로 타이머, 공부 시간 기록, 메트로놈, 전체화면 시계, 플립 시계, 수업용 타이머를 설치 없이 바로 쓰세요.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","inLanguage":"ko","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"publisher":{"@type":"Organization","name":"ludlet","url":"https://ludlet.com"}}
+</script>
 <script>
   // 깜빡임 없이 저장된 테마를 먼저 적용
   try { var t = JSON.parse(localStorage.getItem('kd.theme')); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
@@ -31,17 +43,18 @@
 <body>
 
 <header class="bar">
-  <a class="brand" href="#pomodoro" aria-label="켜둠 처음으로">
+  <!-- 링크마다 data-title, data-h1: 그 주소의 페이지 제목과 h1. app.js 와 scripts/pages.mjs 가 같이 읽음 -->
+  <a class="brand" href="/" aria-label="켜둠 처음으로" data-title="켜둠 | 뽀모도로, 공부 타이머, 메트로놈, 시계" data-h1="탭을 켜두고 쓰는 타이머와 시계">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
     켜둠
   </a>
   <nav class="tabs" role="tablist" aria-label="도구">
-    <button role="tab" id="tab-pomodoro" aria-controls="tool-pomodoro" data-tool="pomodoro">뽀모도로</button>
-    <button role="tab" id="tab-study" aria-controls="tool-study" data-tool="study">공부 타이머</button>
-    <button role="tab" id="tab-metronome" aria-controls="tool-metronome" data-tool="metronome">메트로놈</button>
-    <button role="tab" id="tab-clock" aria-controls="tool-clock" data-tool="clock">시계</button>
-    <button role="tab" id="tab-flip" aria-controls="tool-flip" data-tool="flip">플립 시계</button>
-    <button role="tab" id="tab-classroom" aria-controls="tool-classroom" data-tool="classroom">수업 타이머</button>
+    <a href="/pomodoro" role="tab" id="tab-pomodoro" aria-controls="tool-pomodoro" data-tool="pomodoro" data-title="뽀모도로 타이머 - 25분 집중, 5분 휴식 무료 타이머 | 켜둠" data-h1="뽀모도로 타이머: 25분 집중하고 5분 쉬기">뽀모도로</a>
+    <a href="/study" role="tab" id="tab-study" aria-controls="tool-study" data-tool="study" data-title="공부 타이머 - 과목별 공부시간 기록 스톱워치 | 켜둠" data-h1="공부 타이머: 과목별 공부시간 기록">공부 타이머</a>
+    <a href="/metronome" role="tab" id="tab-metronome" aria-controls="tool-metronome" data-tool="metronome" data-title="온라인 메트로놈 - BPM 조절과 탭 템포 | 켜둠" data-h1="온라인 메트로놈: 30~250 BPM, 탭으로 빠르기 맞추기">메트로놈</a>
+    <a href="/clock" role="tab" id="tab-clock" aria-controls="tool-clock" data-tool="clock" data-title="전체화면 시계 - 크게 띄우는 온라인 디지털 시계 | 켜둠" data-h1="전체화면 시계: 날짜와 시각을 크게">시계</a>
+    <a href="/flip" role="tab" id="tab-flip" aria-controls="tool-flip" data-tool="flip" data-title="플립 시계 - 전체화면 온라인 플립 클락 | 켜둠" data-h1="플립 시계: 숫자 카드가 넘어가는 탁상시계">플립 시계</a>
+    <a href="/classroom" role="tab" id="tab-classroom" aria-controls="tool-classroom" data-tool="classroom" data-title="수업 타이머 - 교실 화면에 띄우는 타이머 | 켜둠" data-h1="수업 타이머: 교실 화면에 띄우는 시각 타이머">수업 타이머</a>
   </nav>
   <div class="bar-actions">
     <button class="chip" id="wake" aria-pressed="false" hidden title="켜두는 동안 화면이 꺼지지 않게 합니다">화면 켜두기</button>
@@ -209,12 +222,12 @@
 
     <p class="keys">스페이스바로 시작과 정지, F 키로 전체화면</p>
 
-    <!-- 도구별 사용 안내: 탭과 상관없이 항상 보임 -->
+    <!-- 도구별 사용 안내: 탭과 상관없이 항상 보임. 지금 도구의 글이 맨 앞으로 옴 -->
     <section class="guide" aria-labelledby="guide-title">
       <h2 id="guide-title">켜둠 사용 안내</h2>
       <p class="lead">켜둠은 브라우저 탭 하나에 켜두고 쓰는 타이머와 시계예요. 설치나 가입 없이 위의 탭을 눌러 도구를 바꾸면 되고, 설정과 기록은 이 브라우저에 저장돼서 다음에 열어도 그대로 남아 있어요.</p>
 
-      <article>
+      <article data-tool="pomodoro">
         <h3>뽀모도로 타이머</h3>
         <p>뽀모도로 기법은 1980년대 후반 프란체스코 시릴로가 만든 시간 관리 방법이에요. 토마토 모양 주방 타이머에서 이름을 따왔어요. 25분 동안 한 가지 일에만 집중하고 5분 쉬는 것을 한 번으로 세고, 네 번 집중하면 15~30분 정도 길게 쉬어요.</p>
         <ol>
@@ -231,7 +244,7 @@
         <p>뽀모도로 기법의 배경과 잘 쓰는 요령은 <a href="https://ludlet.com/notes/pomodoro-technique">뽀모도로 기법 정리 글</a>에서 더 자세히 볼 수 있어요.</p>
       </article>
 
-      <article>
+      <article data-tool="study">
         <h3>공부 타이머</h3>
         <p>과목별로 공부한 시간을 재고 오늘 합계를 보여주는 스톱워치예요. 과목 버튼을 누르면 그 과목으로 바뀌고, 재는 중에 바꾸면 멈추지 않고 새 과목으로 이어서 재요. 각 과목 버튼 옆의 작은 숫자가 그 과목의 오늘 누적 시간이에요.</p>
         <ul>
@@ -243,7 +256,7 @@
         </ul>
       </article>
 
-      <article>
+      <article data-tool="metronome">
         <h3>메트로놈</h3>
         <p>BPM은 1분에 박이 몇 번 들어가는지를 나타내요. 60 BPM이면 1초에 한 번, 120 BPM이면 1초에 두 번이에요. 켜둠 메트로놈은 30~250 BPM 사이에서 슬라이더나 −, + 버튼(1씩)으로 맞출 수 있어요.</p>
         <ul>
@@ -265,7 +278,7 @@
         </table>
       </article>
 
-      <article>
+      <article data-tool="clock">
         <h3>전체화면 시계</h3>
         <p>날짜와 요일, 시각을 크게 보여주는 시계예요. 24시간제를 끄면 오전과 오후로 나눠 보여주고, 초 표시는 켜고 끌 수 있어요.</p>
         <ul>
@@ -275,7 +288,7 @@
         </ul>
       </article>
 
-      <article>
+      <article data-tool="flip">
         <h3>플립 시계</h3>
         <p>숫자 카드가 위에서 아래로 넘어가는 탁상시계 모양의 시계예요. 책상 옆 보조 모니터, 공부 방송 배경, 매장 대기 화면처럼 시간을 은은하게 보여주고 싶을 때 잘 어울려요.</p>
         <ul>
@@ -285,7 +298,7 @@
         </ul>
       </article>
 
-      <article>
+      <article data-tool="classroom">
         <h3>수업 타이머</h3>
         <p>교실 화면이나 프로젝터에 띄우는 타이머예요. 빨간 부채꼴이 줄어드는 모양으로 남은 시간을 보여줘서, 숫자를 읽기 어려운 어린 학생도 얼마나 남았는지 한눈에 알 수 있어요.</p>
         <ul>
@@ -336,9 +349,10 @@
 
 <footer class="foot">
   <p>켜둠은 설치나 가입 없이 쓰는 무료 도구예요. 기록과 설정은 이 브라우저에만 저장돼요.</p>
+  <p class="foot-links">ludlet의 다른 도구: <a href="https://flyhours.ludlet.com/">비행시간</a> · <a href="https://round.ludlet.com/">라운드</a> · <a href="https://offwork.ludlet.com/">퇴근게이지</a></p>
   <p class="foot-links"><a href="https://ludlet.com">ludlet</a> · <a href="https://ludlet.com/about">소개</a> · <a href="https://ludlet.com/privacy">개인정보처리방침</a> · 문의 <a href="mailto:hello@ludlet.com">hello@ludlet.com</a></p>
 </footer>
 
-<script src="assets/app.js"></script>
+<script src="/assets/app.js"></script>
 </body>
 </html>

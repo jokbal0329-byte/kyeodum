@@ -561,15 +561,19 @@
   })();
 
   // ---------- 탭 ----------
+  // 도구마다 주소가 따로 있음(/pomodoro 등). 탭을 바꾸면 새로고침 없이 주소만 바꾸고, / 는 마지막에 쓴 도구를 보여주는 첫 화면
   const tools = { pomodoro, study, metronome, clock, flip, classroom };
-  const names = {
-    pomodoro: '뽀모도로 타이머', study: '공부 타이머', metronome: '메트로놈',
-    clock: '전체화면 시계', flip: '플립 시계', classroom: '수업 타이머',
-  };
   const tabs = $$('.tabs [role="tab"]');
+  const brand = $('.brand'), h1 = $('h1');
+  const guides = $$('.guide article[data-tool]'), guideLead = $('.guide .lead');
   let active = 'pomodoro';
 
-  function show(id, focus) {
+  // 지금 주소의 도구. / 이면 null
+  const pathTool = () => { const id = location.pathname.replace(/^\/|\.html$/g, ''); return tools[id] ? id : null; };
+  // 링크의 data-title, data-h1 = 그 주소의 페이지 제목과 h1 (index.html 참고)
+  const page = () => (pathTool() ? $('#tab-' + pathTool()) : brand).dataset;
+
+  function show(id, nav, focus) {
     if (!tools[id]) id = 'pomodoro';
     active = id;
     tabs.forEach((t) => {
@@ -580,27 +584,37 @@
       if (on) t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
     $$('.tool').forEach((p) => { p.hidden = p.id !== 'tool-' + id; });
-    if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
+    // nav: 'push' 는 탭 클릭, 'replace' 는 예전 #주소 정리. 없으면 주소 그대로 (첫 화면, 뒤로 가기)
+    if (nav && location.pathname + location.hash !== '/' + id) history[nav + 'State']({ tool: id }, '', '/' + id);
+    h1.textContent = page().h1;
+    const g = guides.find((a) => a.dataset.tool === id);
+    if (g) guideLead.after(g, ...guides.filter((a) => a !== g));
     store.set('tab', id);
     loop();
   }
   tabs.forEach((t, i) => {
-    t.addEventListener('click', () => show(t.dataset.tool));
+    t.addEventListener('click', (e) => {
+      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // 새 탭으로 열기는 그대로
+      e.preventDefault();
+      show(t.dataset.tool, 'push');
+    });
     t.addEventListener('keydown', (e) => {
       const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
       if (!d) return;
       e.preventDefault();
-      show(tabs[(i + d + tabs.length) % tabs.length].dataset.tool, true);
+      show(tabs[(i + d + tabs.length) % tabs.length].dataset.tool, 'push', true);
     });
   });
-  window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+  window.addEventListener('popstate', (e) => show((e.state && e.state.tool) || pathTool() || store.get('tab', 'pomodoro')));
+  // 예전 주소(/#metronome)는 /metronome 으로 바꿔서 보여줌
+  window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (tools[h]) show(h, 'replace'); });
 
   // ---------- 매 틱 ----------
   function loop() {
     Object.entries(tools).forEach(([id, t]) => t.tick && t.tick(id === active));
     // 화면에 없는 도구라도 돌아가는 중이면 탭 제목에 표시
     const running = [active, ...Object.keys(tools)].map((id) => tools[id].title && tools[id].title()).find(Boolean);
-    const title = running ? `${running} | 켜둠` : `${names[active]} | 켜둠`;
+    const title = running ? `${running} | 켜둠` : page().title;
     if (document.title !== title) document.title = title;
   }
   setInterval(loop, 250);
@@ -681,5 +695,13 @@
   });
   applyTheme();
 
-  show(location.hash.slice(1) || store.get('tab', 'pomodoro'));
+  {
+    const h = location.hash.slice(1);
+    if (tools[h]) show(h, 'replace');
+    else {
+      const id = pathTool() || store.get('tab', 'pomodoro');
+      history.replaceState({ tool: id }, '', location.pathname + location.search);
+      show(id);
+    }
+  }
 })();

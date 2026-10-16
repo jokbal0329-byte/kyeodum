@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>온라인 메트로놈 - BPM 조절과 탭 템포 | 켜둠</title>
+<meta name="description" content="설치 없이 쓰는 무료 온라인 메트로놈. 30~250 BPM 사이에서 빠르기를 맞추고, 탭으로 곡의 템포를 재고, 2·3·4·6박과 첫 박 강조를 고를 수 있어요.">
+<meta name="theme-color" content="#E4E7E4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121518" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://kyeodum.ludlet.com/metronome">
+<!-- 이 파일은 scripts/pages.mjs 가 index.html 로 만든 것: 직접 고치지 말고 index.html 수정 후 node scripts/pages.mjs -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="켜둠 · ludlet">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://kyeodum.ludlet.com/metronome">
+<meta property="og:title" content="온라인 메트로놈 - BPM 조절과 탭 템포 | 켜둠">
+<meta property="og:description" content="설치 없이 쓰는 무료 온라인 메트로놈. 30~250 BPM 사이에서 빠르기를 맞추고, 탭으로 곡의 템포를 재고, 2·3·4·6박과 첫 박 강조를 고를 수 있어요.">
+<meta property="og:image" content="https://kyeodum.ludlet.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="켜둠 - 켜두고 쓰는 타이머와 시계">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"켜둠 온라인 메트로놈","url":"https://kyeodum.ludlet.com/metronome","description":"설치 없이 쓰는 무료 온라인 메트로놈. 30~250 BPM 사이에서 빠르기를 맞추고, 탭으로 곡의 템포를 재고, 2·3·4·6박과 첫 박 강조를 고를 수 있어요.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","inLanguage":"ko","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"publisher":{"@type":"Organization","name":"ludlet","url":"https://ludlet.com"}}
+</script>
+<script>
+  // 깜빡임 없이 저장된 테마를 먼저 적용
+  try { var t = JSON.parse(localStorage.getItem('kd.theme')); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<!-- 애드센스 승인 후: 이 스크립트와 본문의 <ins class="adsbygoogle"> 주석을 풀고 ca-pub-XXXXXXXX, *_SLOT_ID 를 바꿔 넣으세요.
+     ins 바로 뒤에 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> 를 하나씩 붙이면 됩니다.
+     광고 칸은 ins 가 있을 때만 보입니다 (style.css 의 .ad 참고).
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+</head>
+<body>
+
+<header class="bar">
+  <!-- 링크마다 data-title, data-h1: 그 주소의 페이지 제목과 h1. app.js 와 scripts/pages.mjs 가 같이 읽음 -->
+  <a class="brand" href="/" aria-label="켜둠 처음으로" data-title="켜둠 | 뽀모도로, 공부 타이머, 메트로놈, 시계" data-h1="탭을 켜두고 쓰는 타이머와 시계">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    켜둠
+  </a>
+  <nav class="tabs" role="tablist" aria-label="도구">
+    <a href="/pomodoro" role="tab" id="tab-pomodoro" aria-controls="tool-pomodoro" data-tool="pomodoro" data-title="뽀모도로 타이머 - 25분 집중, 5분 휴식 무료 타이머 | 켜둠" data-h1="뽀모도로 타이머: 25분 집중하고 5분 쉬기">뽀모도로</a>
+    <a href="/study" role="tab" id="tab-study" aria-controls="tool-study" data-tool="study" data-title="공부 타이머 - 과목별 공부시간 기록 스톱워치 | 켜둠" data-h1="공부 타이머: 과목별 공부시간 기록">공부 타이머</a>
+    <a href="/metronome" role="tab" aria-selected="true" id="tab-metronome" aria-controls="tool-metronome" data-tool="metronome" data-title="온라인 메트로놈 - BPM 조절과 탭 템포 | 켜둠" data-h1="온라인 메트로놈: 30~250 BPM, 탭으로 빠르기 맞추기">메트로놈</a>
+    <a href="/clock" role="tab" id="tab-clock" aria-controls="tool-clock" data-tool="clock" data-title="전체화면 시계 - 크게 띄우는 온라인 디지털 시계 | 켜둠" data-h1="전체화면 시계: 날짜와 시각을 크게">시계</a>
+    <a href="/flip" role="tab" id="tab-flip" aria-controls="tool-flip" data-tool="flip" data-title="플립 시계 - 전체화면 온라인 플립 클락 | 켜둠" data-h1="플립 시계: 숫자 카드가 넘어가는 탁상시계">플립 시계</a>
+    <a href="/classroom" role="tab" id="tab-classroom" aria-controls="tool-classroom" data-tool="classroom" data-title="수업 타이머 - 교실 화면에 띄우는 타이머 | 켜둠" data-h1="수업 타이머: 교실 화면에 띄우는 시각 타이머">수업 타이머</a>
+  </nav>
+  <div class="bar-actions">
+    <button class="chip" id="wake" aria-pressed="false" hidden title="켜두는 동안 화면이 꺼지지 않게 합니다">화면 켜두기</button>
+    <button class="chip" id="theme" title="화면 테마 바꾸기">테마: 자동</button>
+  </div>
+</header>
+
+<div class="frame">
+  <!-- 왼쪽 레일 광고(1200px 이상). ins 주석을 풀면 레일이 생기고, 비어 있으면 레일 없이 본문만 보임 -->
+  <aside class="ad ad-side" aria-label="광고">
+    <div class="ad-slot ad-160">
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="LEFT_SLOT_ID"></ins> -->
+    </div>
+  </aside>
+
+  <main>
+    <h1 class="intro">온라인 메트로놈: 30~250 BPM, 탭으로 빠르기 맞추기</h1>
+
+    <div class="stage" id="stage">
+      <button class="fs-btn" id="fs" aria-label="전체화면" title="전체화면 (F)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+
+      <!-- 뽀모도로 -->
+      <section class="tool" id="tool-pomodoro" role="tabpanel" aria-labelledby="tab-pomodoro" data-mode="focus" hidden>
+        <div class="seg" role="group" aria-label="모드">
+          <button data-mode="focus">집중</button>
+          <button data-mode="short">짧은 휴식</button>
+          <button data-mode="long">긴 휴식</button>
+        </div>
+        <div class="readout pomo-time">25:00</div>
+        <div class="pomo-bar" aria-hidden="true"><i></i></div>
+        <p class="pomo-round"></p>
+        <div class="controls">
+          <button class="btn primary" data-act="toggle">시작</button>
+          <button class="btn" data-act="reset">초기화</button>
+          <button class="btn" data-act="skip">건너뛰기</button>
+        </div>
+        <details class="settings">
+          <summary>시간 설정</summary>
+          <div class="fields">
+            <label>집중 <span><input type="number" min="1" max="120" data-cfg="focus"> 분</span></label>
+            <label>짧은 휴식 <span><input type="number" min="1" max="60" data-cfg="short"> 분</span></label>
+            <label>긴 휴식 <span><input type="number" min="1" max="60" data-cfg="long"> 분</span></label>
+            <label>긴 휴식 간격 <span><input type="number" min="2" max="8" data-cfg="every"> 회</span></label>
+            <label class="check"><input type="checkbox" data-cfg="auto"> 다음 단계 자동 시작</label>
+          </div>
+        </details>
+      </section>
+
+      <!-- 공부 타이머 -->
+      <section class="tool" id="tool-study" role="tabpanel" aria-labelledby="tab-study" hidden>
+        <p class="study-subject"></p>
+        <div class="readout study-time">00:00:00</div>
+        <p class="study-total">오늘 합계 <b>0시간 0분</b></p>
+        <div class="controls">
+          <button class="btn primary" data-act="toggle">시작</button>
+        </div>
+        <div class="subjects" role="group" aria-label="과목"></div>
+        <form class="subject-add">
+          <input type="text" maxlength="12" placeholder="과목 추가" aria-label="새 과목 이름">
+          <button class="btn small" type="submit">추가</button>
+          <button class="btn small ghost" type="button" data-act="clear">오늘 기록 지우기</button>
+        </form>
+      </section>
+
+      <!-- 메트로놈 -->
+      <section class="tool" id="tool-metronome" role="tabpanel" aria-labelledby="tab-metronome">
+        <div class="metro">
+          <svg class="metro-body" viewBox="0 0 200 260" aria-hidden="true">
+            <path class="metro-case" d="M70 20h60l46 226H24z"/>
+            <path class="metro-scale" d="M100 50v170"/>
+            <g class="metro-arm">
+              <line x1="100" y1="226" x2="100" y2="36"/>
+              <rect class="metro-weight" x="88" y="100" width="24" height="18" rx="3"/>
+            </g>
+            <circle class="metro-pivot" cx="100" cy="226" r="5"/>
+          </svg>
+          <div class="metro-read">
+            <div class="readout metro-bpm">100</div>
+            <p class="metro-name"><span>BPM</span> <b>Andante</b></p>
+            <div class="beat-dots" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="metro-tempo">
+          <button class="btn round" data-act="minus" aria-label="1 느리게">−</button>
+          <input type="range" min="30" max="250" step="1" aria-label="빠르기 (BPM)">
+          <button class="btn round" data-act="plus" aria-label="1 빠르게">+</button>
+        </div>
+        <div class="controls">
+          <button class="btn primary" data-act="toggle">시작</button>
+          <button class="btn" data-act="tap">탭으로 맞추기</button>
+        </div>
+        <div class="opts">
+          <div class="seg small" role="group" aria-label="박자">
+            <button data-beats="2">2박</button>
+            <button data-beats="3">3박</button>
+            <button data-beats="4">4박</button>
+            <button data-beats="6">6박</button>
+          </div>
+          <label class="check"><input type="checkbox" data-cfg="accent"> 첫 박 강조</label>
+        </div>
+      </section>
+
+      <!-- 시계 -->
+      <section class="tool" id="tool-clock" role="tabpanel" aria-labelledby="tab-clock" hidden>
+        <p class="clock-date"></p>
+        <div class="readout clock-time"><span class="clock-ap"></span><span class="clock-hm">00:00</span><span class="clock-s">00</span></div>
+        <div class="opts">
+          <label class="check"><input type="checkbox" data-cfg="h24"> 24시간제</label>
+          <label class="check"><input type="checkbox" data-cfg="sec"> 초 표시</label>
+        </div>
+      </section>
+
+      <!-- 플립 시계 -->
+      <section class="tool" id="tool-flip" role="tabpanel" aria-labelledby="tab-flip" hidden>
+        <div class="flipclock" aria-hidden="true">
+          <div class="flip-group" data-g="h"></div>
+          <div class="flip-group" data-g="m"></div>
+          <div class="flip-group" data-g="s"></div>
+        </div>
+        <p class="flip-ap"></p>
+        <p class="sr-only flip-sr" aria-live="off"></p>
+        <div class="opts">
+          <label class="check"><input type="checkbox" data-cfg="h24"> 24시간제</label>
+          <label class="check"><input type="checkbox" data-cfg="sec"> 초 표시</label>
+        </div>
+      </section>
+
+      <!-- 수업 타이머 -->
+      <section class="tool" id="tool-classroom" role="tabpanel" aria-labelledby="tab-classroom" hidden>
+        <div class="class-face">
+          <svg class="disc" viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="disc-plate" cx="100" cy="100" r="96"/>
+            <g class="disc-ticks"></g>
+            <path class="disc-left" d=""/>
+            <circle class="disc-cap" cx="100" cy="100" r="9"/>
+          </svg>
+          <div class="class-read">
+            <div class="readout class-time">05:00</div>
+            <p class="class-msg"></p>
+          </div>
+        </div>
+        <div class="presets" role="group" aria-label="빠른 설정">
+          <button class="chip" data-min="1">1분</button>
+          <button class="chip" data-min="3">3분</button>
+          <button class="chip" data-min="5">5분</button>
+          <button class="chip" data-min="10">10분</button>
+          <button class="chip" data-min="15">15분</button>
+          <button class="chip" data-min="20">20분</button>
+          <button class="chip" data-min="30">30분</button>
+        </div>
+        <div class="controls">
+          <button class="btn primary" data-act="toggle">시작</button>
+          <button class="btn" data-act="reset">처음으로</button>
+          <button class="btn" data-act="add">1분 추가</button>
+        </div>
+        <form class="custom">
+          <label><input type="number" min="0" max="180" value="5" aria-label="분" data-f="m"> 분</label>
+          <label><input type="number" min="0" max="59" value="0" aria-label="초" data-f="s"> 초</label>
+          <button class="btn small" type="submit">이 시간으로 설정</button>
+        </form>
+      </section>
+    </div>
+
+    <p class="keys">스페이스바로 시작과 정지, F 키로 전체화면</p>
+
+    <!-- 도구별 사용 안내: 탭과 상관없이 항상 보임. 지금 도구의 글이 맨 앞으로 옴 -->
+    <section class="guide" aria-labelledby="guide-title">
+      <h2 id="guide-title">켜둠 사용 안내</h2>
+      <p class="lead">켜둠은 브라우저 탭 하나에 켜두고 쓰는 타이머와 시계예요. 설치나 가입 없이 위의 탭을 눌러 도구를 바꾸면 되고, 설정과 기록은 이 브라우저에 저장돼서 다음에 열어도 그대로 남아 있어요.</p>
+
+      <article data-tool="metronome">
+        <h3>메트로놈</h3>
+        <p>BPM은 1분에 박이 몇 번 들어가는지를 나타내요. 60 BPM이면 1초에 한 번, 120 BPM이면 1초에 두 번이에요. 켜둠 메트로놈은 30~250 BPM 사이에서 슬라이더나 −, + 버튼(1씩)으로 맞출 수 있어요.</p>
+        <ul>
+          <li><b>탭으로 맞추기</b>를 곡에 맞춰 두 번 이상 누르면 최근 다섯 번 누른 간격의 평균으로 빠르기를 정해요. 2초 넘게 쉬었다가 누르면 새로 재요.</li>
+          <li>2박, 3박, 4박, 6박 중에 고를 수 있어요. 첫 박 강조를 켜면 마디의 첫 박이 더 높은 소리와 빨간 점으로 구분돼요.</li>
+          <li>어려운 구간은 목표보다 느린 빠르기에서 틀리지 않고 칠 수 있을 때까지 연습한 뒤, 몇 BPM씩 올려 가는 방법이 흔히 쓰여요.</li>
+        </ul>
+        <p>악보에 적힌 빠르기말은 대략 아래 범위로 통해요. 책이나 메트로놈마다 경계가 조금씩 다르니 어림값으로 봐 주세요. 화면의 빠르기말도 이 범위를 겹치지 않게 나눈 것이라 경계 근처에서는 다르게 보일 수 있어요.</p>
+        <table class="tempo">
+          <thead><tr><th scope="col">빠르기말</th><th scope="col">뜻</th><th scope="col">대략적인 BPM</th></tr></thead>
+          <tbody>
+            <tr><td lang="it">Largo</td><td>아주 느리고 폭넓게</td><td>40~60</td></tr>
+            <tr><td lang="it">Adagio</td><td>느리게</td><td>66~76</td></tr>
+            <tr><td lang="it">Andante</td><td>걷는 빠르기로</td><td>76~108</td></tr>
+            <tr><td lang="it">Moderato</td><td>보통 빠르기로</td><td>108~120</td></tr>
+            <tr><td lang="it">Allegro</td><td>빠르게</td><td>120~156</td></tr>
+            <tr><td lang="it">Presto</td><td>매우 빠르게</td><td>168~200</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article data-tool="pomodoro">
+        <h3>뽀모도로 타이머</h3>
+        <p>뽀모도로 기법은 1980년대 후반 프란체스코 시릴로가 만든 시간 관리 방법이에요. 토마토 모양 주방 타이머에서 이름을 따왔어요. 25분 동안 한 가지 일에만 집중하고 5분 쉬는 것을 한 번으로 세고, 네 번 집중하면 15~30분 정도 길게 쉬어요.</p>
+        <ol>
+          <li><b>시작</b>을 누르면 25분 집중이 시작돼요. 숫자가 빨간색이면 집중, 초록색이면 휴식이에요.</li>
+          <li>집중이 끝나면 알림음이 세 번 울리고 짧은 휴식(5분)으로 넘어가요. 휴식이 끝나면 두 번 울리고 다시 집중이에요.</li>
+          <li>집중을 네 번 마치면 긴 휴식(15분)이 와요. 화면 아래에 긴 휴식까지 몇 번 남았는지 나와요.</li>
+          <li><b>시간 설정</b>에서 집중은 1~120분, 휴식은 1~60분, 긴 휴식 간격은 2~8회로 바꿀 수 있어요. 다음 단계 자동 시작을 끄면 단계마다 직접 시작을 눌러야 해요.</li>
+        </ol>
+        <ul>
+          <li>시작하기 전에 이번 25분 동안 할 일을 하나만 정해 두세요. 집중하는 중에 떠오른 다른 일은 종이에 적어 두고 휴식 때 처리하면 흐름이 덜 끊겨요.</li>
+          <li>25분이 길게 느껴지면 15분부터 시작하고, 익숙해지면 50분 집중과 10분 휴식처럼 늘려 보세요.</li>
+          <li>건너뛰기로 넘긴 집중은 횟수에 들어가지 않아요. 초기화는 지금 단계를 처음부터 다시 시작해요.</li>
+        </ul>
+        <p>뽀모도로 기법의 배경과 잘 쓰는 요령은 <a href="https://ludlet.com/notes/pomodoro-technique">뽀모도로 기법 정리 글</a>에서 더 자세히 볼 수 있어요.</p>
+      </article>
+
+      <article data-tool="study">
+        <h3>공부 타이머</h3>
+        <p>과목별로 공부한 시간을 재고 오늘 합계를 보여주는 스톱워치예요. 과목 버튼을 누르면 그 과목으로 바뀌고, 재는 중에 바꾸면 멈추지 않고 새 과목으로 이어서 재요. 각 과목 버튼 옆의 작은 숫자가 그 과목의 오늘 누적 시간이에요.</p>
+        <ul>
+          <li>처음에는 국어, 영어, 수학이 들어 있어요. 과목은 최대 8개, 이름은 12자까지 넣을 수 있고 × 버튼으로 지울 수 있어요.</li>
+          <li>기록은 날짜별로 이 브라우저에 저장되고, 자정이 지나면 과목 목록은 그대로 둔 채 0부터 새로 시작해요.</li>
+          <li>재는 중에 창을 닫으면 그때까지 잰 시간은 저장되고 타이머는 멈춰요. 다시 열어서 시작을 누르면 이어서 쌓여요.</li>
+          <li>쉬는 시간에는 일시정지를 눌러 두세요. 순수하게 공부한 시간만 남아야 하루 기록을 비교하기 좋아요.</li>
+          <li>뽀모도로 타이머를 돌리면서 공부 타이머로 과목별 시간을 함께 잴 수도 있어요. 두 도구는 따로 움직여요.</li>
+        </ul>
+      </article>
+
+      <article data-tool="clock">
+        <h3>전체화면 시계</h3>
+        <p>날짜와 요일, 시각을 크게 보여주는 시계예요. 24시간제를 끄면 오전과 오후로 나눠 보여주고, 초 표시는 켜고 끌 수 있어요.</p>
+        <ul>
+          <li>화면 오른쪽 위 버튼이나 F 키로 전체화면을 켜요. 2.5초 동안 움직임이 없으면 버튼과 마우스 커서가 숨고 시간만 남아요. 마우스를 움직이거나 화면을 누르면 다시 나타나요.</li>
+          <li>아이폰 사파리처럼 전체화면 기능을 지원하지 않는 브라우저에서는 페이지 안에서 화면을 가득 채우는 방식으로 대신해요. 다시 버튼을 누르거나 Esc 키로 돌아와요.</li>
+          <li>모니터나 태블릿에 오래 띄워 둘 때는 화면 켜두기를 켜고, 밤에는 테마를 어둡게로 바꾸면 눈이 덜 부셔요.</li>
+        </ul>
+      </article>
+
+      <article data-tool="flip">
+        <h3>플립 시계</h3>
+        <p>숫자 카드가 위에서 아래로 넘어가는 탁상시계 모양의 시계예요. 책상 옆 보조 모니터, 공부 방송 배경, 매장 대기 화면처럼 시간을 은은하게 보여주고 싶을 때 잘 어울려요.</p>
+        <ul>
+          <li>초 표시를 끄면 카드가 1분에 한 번만 넘어가서 덜 산만해요.</li>
+          <li>24시간제를 끄면 숫자 아래에 오전, 오후가 표시돼요.</li>
+          <li>전체화면 사용법은 시계와 같아요. 기기에서 동작 줄이기를 켜 두면 넘김 동작이 거의 없이 바로 바뀌어요.</li>
+        </ul>
+      </article>
+
+      <article data-tool="classroom">
+        <h3>수업 타이머</h3>
+        <p>교실 화면이나 프로젝터에 띄우는 타이머예요. 빨간 부채꼴이 줄어드는 모양으로 남은 시간을 보여줘서, 숫자를 읽기 어려운 어린 학생도 얼마나 남았는지 한눈에 알 수 있어요.</p>
+        <ul>
+          <li>1, 3, 5, 10, 15, 20, 30분 버튼으로 바로 정하거나, 아래 칸에 분과 초를 넣어 최대 180분까지 직접 정할 수 있어요.</li>
+          <li>마지막 1분이 되면 숫자가 빨갛게 바뀌어요. 5분보다 짧게 정했다면 남은 시간이 20% 아래로 떨어질 때 바뀌어요.</li>
+          <li>시간이 다 되면 알림음이 네 번 울리고 숫자가 깜빡여요. 1분 추가는 진행 중에도, 끝난 뒤에도 쓸 수 있어요.</li>
+          <li>시작하기 전에 끝나면 무엇을 할지 먼저 말해 두면 정리가 빨라져요. 모둠 활동, 쪽지 시험, 발표 준비, 정리 시간에 쓰기 좋아요.</li>
+          <li>교실 스피커 음량은 수업 전에 짧은 1분 타이머로 미리 확인해 두세요.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="guide faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">자주 묻는 질문</h2>
+
+      <h3>다른 탭을 보거나 창을 내려도 타이머가 계속 가나요?</h3>
+      <p>네, 계속 가요. 남은 시간을 끝나는 시각 기준으로 계산해서 다시 돌아와도 시간은 정확해요. 다만 브라우저가 화면에 보이지 않는 탭의 작업을 줄이기 때문에 알림음이 조금 늦게, 길게는 1분 가까이 늦게 울릴 수 있어요. 알림 시각이 중요하다면 창을 화면에 띄워 두세요. 돌아가는 타이머의 남은 시간은 브라우저 탭 제목에도 표시돼요.</p>
+
+      <h3>인터넷이 끊겨도 쓸 수 있나요?</h3>
+      <p>이미 열어 둔 페이지는 인터넷이 끊겨도 계속 동작해요. 시간 계산과 소리가 모두 브라우저 안에서 처리되기 때문이에요. 다만 오프라인 상태에서 페이지를 처음 열거나 새로고침할 수는 없어요.</p>
+
+      <h3>화면이 꺼지지 않게 할 수 있나요?</h3>
+      <p>위쪽의 <b>화면 켜두기</b>를 누르면 이 탭을 보고 있는 동안 화면이 꺼지지 않아요. 이 버튼은 화면 꺼짐 방지 기능을 지원하는 브라우저에서만 보여요. 다른 탭이나 앱으로 가면 잠시 풀렸다가 돌아오면 다시 켜지고, 저전력 모드에서는 기기가 거절할 수 있어요. 버튼이 보이지 않으면 기기 설정에서 자동 잠금 시간을 늘려 주세요.</p>
+
+      <h3>아이폰에서 소리가 나지 않아요.</h3>
+      <p>켜둠의 알림음과 메트로놈 소리는 오디오 파일이 아니라 브라우저의 Web Audio 기능으로 만들어 재생해요. 아이폰이 무음 모드이면 이런 웹페이지 소리가 나지 않을 수 있으니 무음 모드를 끄고 음량을 확인해 주세요. 또 브라우저는 페이지를 한 번도 누르지 않은 상태에서는 소리를 막기 때문에, 시작 버튼을 직접 눌러야 소리가 나요.</p>
+
+      <h3>기록과 설정은 어디에 저장되나요?</h3>
+      <p>공부 기록, 과목 이름, 타이머와 메트로놈 설정, 테마는 모두 이 브라우저의 저장소(localStorage)에만 남고 서버로 보내지 않아요. 그래서 다른 기기나 다른 브라우저와는 이어지지 않아요. 브라우저의 사이트 데이터를 지우거나 시크릿 창을 닫으면 함께 사라져요.</p>
+
+      <h3>키보드로 조작할 수 있나요?</h3>
+      <p>스페이스바로 뽀모도로, 공부 타이머, 메트로놈, 수업 타이머를 시작하고 멈출 수 있어요. F 키는 전체화면을 켜고 끄고, 위의 탭 목록에서는 왼쪽·오른쪽 화살표로 도구를 바꿀 수 있어요.</p>
+    </section>
+
+    <!-- 본문 광고: 설명 글 아래, 푸터 바로 위. 아래 ins 주석을 풀면 이 칸이 나타남 (비어 있으면 자리도 차지하지 않음) -->
+    <div class="ad ad-inline" aria-label="광고">
+      <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="INLINE_SLOT_ID" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+    </div>
+  </main>
+
+  <!-- 오른쪽 레일 광고(1200px 이상). ins 주석을 풀면 레일이 생기고, 비어 있으면 레일 없이 본문만 보임 -->
+  <aside class="ad ad-side" aria-label="광고">
+    <div class="ad-slot ad-160">
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="RIGHT_SLOT_ID"></ins> -->
+    </div>
+  </aside>
+</div>
+
+<footer class="foot">
+  <p>켜둠은 설치나 가입 없이 쓰는 무료 도구예요. 기록과 설정은 이 브라우저에만 저장돼요.</p>
+  <p class="foot-links">ludlet의 다른 도구: <a href="https://flyhours.ludlet.com/">비행시간</a> · <a href="https://round.ludlet.com/">라운드</a> · <a href="https://offwork.ludlet.com/">퇴근게이지</a></p>
+  <p class="foot-links"><a href="https://ludlet.com">ludlet</a> · <a href="https://ludlet.com/about">소개</a> · <a href="https://ludlet.com/privacy">개인정보처리방침</a> · 문의 <a href="mailto:hello@ludlet.com">hello@ludlet.com</a></p>
+</footer>
+
+<script src="/assets/app.js"></script>
+</body>
+</html>
