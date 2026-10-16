@@ -437,6 +437,8 @@ input[type="number"] { width: 4.5em; text-align: right; font-variant-numeric: ta
 
 .foot { max-width: 1400px; margin: 0 auto; padding: 24px; font-size: var(--s-1); color: var(--ink-2); border-top: 1px solid var(--line); }
 .foot p { margin: 0; max-width: 68ch; }
+.foot .foot-links { margin-top: 8px; }
+.foot a { color: inherit; }
 
 /* ---------- 전체화면 ---------- */
 .stage.is-full {
