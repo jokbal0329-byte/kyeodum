@@ -10,6 +10,9 @@
   --dial: #2747C9;
   --red: #D9412B;
   --rest: #2B8A5E;
+  /* 글자로 쓸 때(면 #F7F8F6 위 4.5:1 이상): 빨강 5.02, 초록 4.95. 막대·부채꼴은 위 색 그대로 */
+  --red-text: #C23A26;
+  --rest-text: #227A54;
   --on-ink: #F7F8F6;
 
   --num: "Archivo", "Pretendard Variable", system-ui, sans-serif;
@@ -34,6 +37,8 @@
     --dial: #8199FF;
     --red: #FF6B55;
     --rest: #4CC08A;
+    --red-text: #FF6B55;
+    --rest-text: #4CC08A;
     --on-ink: #121518;
     color-scheme: dark;
   }
@@ -48,6 +53,8 @@
   --dial: #8199FF;
   --red: #FF6B55;
   --rest: #4CC08A;
+  --red-text: #FF6B55;
+  --rest-text: #4CC08A;
   --on-ink: #121518;
   color-scheme: dark;
 }
@@ -238,7 +245,7 @@ main { min-width: 0; padding-bottom: 48px; }
 .btn.primary:hover { opacity: .88; }
 .btn.small { padding: 6px 14px; min-height: 36px; font-size: var(--s-1); }
 .btn.ghost { border-color: transparent; color: var(--ink-2); }
-.btn.ghost:hover { color: var(--red); }
+.btn.ghost:hover { color: var(--red-text); }
 .btn.round { width: 44px; padding: 0; font-size: var(--s1); }
 
 .seg {
@@ -273,9 +280,9 @@ input[type="number"], input[type="text"] {
 input[type="number"] { width: 4.5em; text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ---------- 뽀모도로 ---------- */
-#tool-pomodoro { --state: var(--red); }
-#tool-pomodoro[data-mode="short"], #tool-pomodoro[data-mode="long"] { --state: var(--rest); }
-.pomo-time { color: var(--state); }
+#tool-pomodoro { --state: var(--red); --state-text: var(--red-text); }
+#tool-pomodoro[data-mode="short"], #tool-pomodoro[data-mode="long"] { --state: var(--rest); --state-text: var(--rest-text); }
+.pomo-time { color: var(--state-text); }
 .pomo-bar {
   width: min(520px, 100%);
   height: 4px;
@@ -312,7 +319,7 @@ input[type="number"] { width: 4.5em; text-align: right; font-variant-numeric: ta
 }
 .subject > button { border: 0; background: transparent; padding: 6px 4px 6px 12px; display: inline-flex; gap: 8px; align-items: baseline; }
 .subject > button:last-child { padding: 6px 10px; color: var(--ink-2); }
-.subject > button:last-child:hover { color: var(--red); }
+.subject > button:last-child:hover { color: var(--red-text); }
 .subject small { color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: var(--s-1); }
 .subject[aria-current="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .subject-add { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
@@ -414,9 +421,9 @@ input[type="number"] { width: 4.5em; text-align: right; font-variant-numeric: ta
 .class-read { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
 .class-time { font-size: clamp(3.5rem, 11vw, 9rem); }
 .class-msg { margin: 0; color: var(--ink-2); min-height: 1.6em; }
-#tool-classroom[data-state="warn"] .class-time { color: var(--red); }
-#tool-classroom[data-state="done"] .class-time { color: var(--red); animation: blink 1s steps(2, start) 6; }
-#tool-classroom[data-state="done"] .class-msg { color: var(--red); font-weight: 600; }
+#tool-classroom[data-state="warn"] .class-time { color: var(--red-text); }
+#tool-classroom[data-state="done"] .class-time { color: var(--red-text); animation: blink 1s steps(2, start) 6; }
+#tool-classroom[data-state="done"] .class-msg { color: var(--red-text); font-weight: 600; }
 @keyframes blink { to { visibility: hidden; } }
 .presets { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .presets .chip { font-size: var(--s0); padding: 6px 14px; font-variant-numeric: tabular-nums; }

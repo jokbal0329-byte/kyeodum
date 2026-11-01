@@ -24,3 +24,16 @@ npx wrangler dev
 ```
 
 `og.png`(1200×630), `apple-touch-icon.png`(180×180)는 공유 미리보기와 홈 화면 아이콘.
+
+## 리소스·라이선스
+
+모두 상업적으로 무료로 쓸 수 있는 것만 썼다.
+
+| 이름 | 출처 | 라이선스 |
+|---|---|---|
+| Archivo (숫자 글꼴, Google Fonts 에서 불러옴) | https://fonts.google.com/specimen/Archivo , https://github.com/Omnibus-Type/Archivo | SIL Open Font License 1.1 |
+| Pretendard Variable (본문 글꼴, jsDelivr 에서 불러옴) | https://github.com/orioncactus/pretendard | SIL Open Font License 1.1 |
+| 알림음·메트로놈 소리 | Web Audio API 로 브라우저에서 직접 합성 (음원 파일 없음) | 자체 제작 |
+| favicon.svg, og.png, apple-touch-icon.png | 직접 만듦 | 자체 제작 |
+
+외부 라이브러리는 쓰지 않는다.
